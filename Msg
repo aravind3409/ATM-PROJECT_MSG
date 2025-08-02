@@ -1,0 +1,46 @@
+from twilio.rest import Client
+sid="your sid"
+token="your token"
+ab=Client(sid,token)
+pin = int(input("enter your pin"))
+balance = 10000
+
+if pin==1234:
+
+    print("\n welcome to the atm")
+    print("\n 1.check your account balance")
+    print("\n 2.withdraw amount")
+    print("\n 3.deposit amount")
+    choice = int(input("\n enter your choice"))
+
+    if choice == 1:
+        print("your balance is ", balance)
+        ab.messages.create(body=f"your current balance is{balance}", from_='twillionum', to='yournum')
+        print(ab.messages)
+
+    elif choice == 2:
+        credit = int(input("\n enter the withdraw amount"))
+        if balance <= credit:
+            print("\n your balance is low")
+        else:
+            print("\n your current balance is", balance - credit)
+            ab.messages.create(body=f"amount credited in your account your current balance is {balance-credit}  ", from_='twillionum', to='yournum')
+            print(ab.messages)
+
+
+    elif choice == 3:
+        debit = int(input("\n enter the debited amount"))
+        if debit <= 499:
+            print("\n minimum deposit amount is 500 ")
+        else:
+            print("\n your current balance is", balance + debit)
+            ab.messages.create(body=f"amount was debited your account your current balance is {balance+debit}", from_='twillionum', to='yournum')
+            print(ab.messages)
+
+
+    else:
+        print("Correct choice")
+else:
+    print("invalid pin")
+    ab.messages.create(body=f'invalid pin', from_='twillionum', to='yournum')
+    print(ab.messages)
